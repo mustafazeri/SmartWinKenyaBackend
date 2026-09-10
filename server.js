@@ -27,8 +27,28 @@ res) => {
     "Server error." });
   }
 });
-const PORT = process.env.PORT || 3000; 
-app.listen(PORT, () => {
+// Update walletconst PORT = 
+// process.env.PORT || 3000;
+app.post("/update", async (req, res) => 
+  {app.listen(PORT, () => { 
   console.log("Server running on port " + 
-  PORT);
+  PORT); try {});
+    const { username, coins, score } = 
+    req.body; const user = await 
+    User.findOne({ username }); if (!user) 
+    {
+      return res.json({ success: false, 
+        message: "User not found."
+      });
+    }
+    user.coins = coins; user.score = 
+    score; await user.save(); res.json({
+      success: true, message: "Wallet 
+      updated successfully!"
+    });
+  } catch (err) {
+    res.json({ success: false, message: 
+      "Server error."
+    });
+  }
 });
