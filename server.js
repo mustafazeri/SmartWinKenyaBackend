@@ -43,12 +43,12 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", userSchema);
-
+const leaderboardRouter = require("./routes/leaderboard")(User);
 // Home Route
 app.get("/", (req, res) => {
   res.send("SmartWinKenya Backend is Running!");
 });
-
+app.use("/leaderboard", leaderboardRouter);
 // Register
 app.post("/register", async (req, res) => {
   try {
