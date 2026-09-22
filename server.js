@@ -242,47 +242,46 @@ app.post("/coins", async (req, res) => {
     });
   }
 });
-app.post("/deposit", async (req, res) => { 
-  try {// Daily Bonus
-    const { phone, amount } = 
-  req.body;app.post("/dailyBonus", async 
-  (req, res) => { try {
-    const { username } = req.body; if 
-    (!phone || !amount) { const user = 
-    await User.findOne({ username });
-      return res.status(400).json({ if 
-    (!user) {
-        success: false, return res.json({ 
-        success: false, message: "User not 
-        found." message: "Phone number and 
-        amount are required."  });
-      }); }
+
+// Daily Bonus
+app.post("/dailyBonus", async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found."
+      });
     }
+
     const today = new Date();
 
-    if ( user.lastDailyBonus && 
-      user.lastDailyBonus.toDateString() 
-      === today.toDateString()
-    res.json({ ) { return res.json({ 
-      success: true, success: false, 
-      ResponseCode: "0", message: "You 
-      have already claimed today's bonus." 
-      ResponseDescription: "Deposit 
-      endpoint is working."  });
-    }); }
+    if (
+      user.lastDailyBonus &&
+      user.lastDailyBonus.toDateString() === today.toDateString()
+    ) {
+      return res.json({
+        success: false,
+        message: "You have already claimed today's bonus."
+      });
+    }
 
-    user.coins += 50; user.lastDailyBonus 
-    = today;
-  } catch (err) {
-    console.error(err); await user.save(); 
-    res.status(500).json({ res.json({
-      success: false, success: true, 
-      message: "🎁 You received 50 bonus 
-      coins!", coins: user.coins message: 
-      "Server error."  });
+    user.coins += 50;
+    user.lastDailyBonus = today;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "🎁 You received 50 bonus coins!",
+      coins: user.coins
     });
-  }  } catch (err) {
-});    console.error(err);
+
+  } catch (err) {
+    console.error(err);
 
     res.json({
       success: false,
