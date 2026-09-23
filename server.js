@@ -281,14 +281,13 @@ app.post("/dailyBonus", async (req, res) => {
 
     const today = new Date();
 
-    if (
-      user.lastDailyBonus &&
-      user.lastDailyBonus.toDateString()today.toDateString()    ) {
-      return res.json({
-        success: false,        message: "You have already claimed today's bonus."
-      });
-    }
-
+if ( return res.json({ success: false, 
+        message: "You have already 
+        claimed today's bonus."
+  user.lastDailyBonus && }); 
+  user.lastDailyBonus.toDateString() === 
+  today.toDateString() }
+) {
     user.coins += 50;
     user.lastDailyBonus = today;
 
