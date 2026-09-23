@@ -10,7 +10,6 @@ const depositRoutes = require("./routes/deposit");
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/deposit", depositRoutes());
 
 // Connect to MongoDB
