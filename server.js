@@ -2,33 +2,11 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
-
-const authRoutes = require("./routes/auth");
-const walletRoutes = require("./routes/wallet");
-const mpesaRoutes = require("./routes/mpesa");
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-// MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("MongoDB Error:", err));
-
-// Routes
-app.use("/auth", authRoutes);
-app.use("/wallet", walletRoutes);
-app.use("/", mpesaRoutes);
-
-// Home
-app.get("/", (req, res) => {
-  res.send("🚀 SmartWin Kenya Backend V2 is Running!");
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
@@ -281,13 +259,16 @@ app.post("/dailyBonus", async (req, res) => {
 
     const today = new Date();
 
-if ( return res.json({ success: false, 
-        message: "You have already 
-        claimed today's bonus."
-  user.lastDailyBonus && }); 
-  user.lastDailyBonus.toDateString() === 
-  today.toDateString() }
-) {
+    if (
+      user.lastDailyBonus &&
+      user.lastDailyBonus.toDateString() === today.toDateString()
+    ) {
+      return res.json({
+        success: false,
+        message: "You have already claimed today's bonus."
+      });
+    }
+
     user.coins += 50;
     user.lastDailyBonus = today;
 
@@ -319,13 +300,11 @@ app.get("/health", (req, res) => {
 
 // Start Server
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
 app.listen(PORT, () => {
 
 	  console.log(`Server running on port ${PORT}`);
 });
+
+
 
 
