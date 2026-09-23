@@ -6,9 +6,12 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
 const app = express();
+const depositRoutes = require("./routes/deposit");
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/deposit", depositRoutes());
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
