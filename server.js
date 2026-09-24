@@ -291,12 +291,13 @@ app.post("/dailyBonus", async (req, res) => {
     });
   }
 });
-
-// Health Check
-app.get("/health", (req, res) => {
+app.get("/token-test", (req, res) => { 
+  res.json({// Health Check
+    message: "Token test endpoint 
+  ready"app.get("/health", (req, res) => { 
   res.json({
-    success: true,
-    status: "Backend is healthy"
+  }); success: true,
+});    status: "Backend is healthy"
   });
 });
 
