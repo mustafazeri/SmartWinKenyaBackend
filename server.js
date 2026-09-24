@@ -291,23 +291,20 @@ app.post("/dailyBonus", async (req, res) => {
     });
   }
 });
+// Token Test
 app.get("/token-test", (req, res) => { 
-  res.json({// Health Check
-    message: "Token test endpoint 
-  ready"app.get("/health", (req, res) => { 
   res.json({
-  }); success: true,
-});    status: "Backend is healthy"
+    message: "Token test endpoint ready"
   });
 });
-
-// Start Server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-
-	  console.log(`Server running on port ${PORT}`);
+// Health Check
+app.get("/health", (req, res) => { 
+  res.json({
+    success: true,
+status: "Backend is healthy"  });
 });
-
-
-
-
+// Start Server
+const PORT = process.env.PORT || 3000; 
+app.listen(PORT, () => {
+ console.log("Server running on port " + PORT);
+});
