@@ -1,12 +1,13 @@
 require("dotenv").config();
 
-const express = require("express");
-const cors = require("cors");
-const bcrypt = require("bcryptjs");
-const mongoose = require("mongoose");
+const express = require("express"); const 
+cors = require("cors"); const bcrypt = 
+require("bcryptjs"); const mongoose = 
+require("mongoose"); const depositRoutes = 
+require("./routes/deposit");
+const Payment = require("./models/Payment");
 
 const app = express();
-const depositRoutes = require("./routes/deposit");
 
 app.use(cors());
 app.use(express.json());
@@ -291,20 +292,22 @@ app.post("/dailyBonus", async (req, res) => {
     });
   }
 });
-// Token Test
-app.get("/token-test", (req, res) => { 
-  res.json({
-    message: "Token test endpoint ready"
-  });
-});
+
 // Health Check
-app.get("/health", (req, res) => { 
+app.get("/health", (req, res) => {
   res.json({
     success: true,
-status: "Backend is healthy"  });
+    status: "Backend is healthy"
+  });
 });
+
 // Start Server
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
- console.log("Server running on port " + PORT);
+
+	  console.log(`Server running on port ${PORT}`);
 });
+
+
+
+
