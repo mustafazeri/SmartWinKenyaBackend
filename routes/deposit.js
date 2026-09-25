@@ -80,15 +80,17 @@ module.exports = () => {
       return res.json(stkResponse.data);
 
     } catch (err) {
-      console.error(err.response?.data || err.message);
-
-      return res.json({
-        success: false,
-        message: "STK Push failed.",
-        error: err.response?.data || err.message
-      });
-    }
+  console.error("========== STK ERROR 
+  =========="); console.error("Status:", 
+  err.response?.status); 
+  console.error("Data:", 
+  JSON.stringify(err.response?.data, null, 
+  2)); console.error("Message:", 
+  err.message); 
+  console.error("==============================="); 
+  return res.json({
+    success: false, message: "STK Push 
+    failed.", error: err.response?.data || 
+    err.message
   });
-
-  return router;
-};
+}
