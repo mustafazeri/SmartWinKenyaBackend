@@ -7,20 +7,22 @@ async function getAccessToken() {
   const auth = Buffer.from(
     process.env.CONSUMER_KEY + ":" + process.env.CONSUMER_SECRET
   ).toString("base64");
-
-  const response = await axios.get(
-    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+console.log("Sending STK Request..."); 
+console.log({
+  BusinessShortCode: 
+    process.env.BUSINESS_SHORT_CODE, const 
+    response = await axios.get( 
+    "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials", 
     {
-      headers: {
+  Password: password, headers: { 
         Authorization: "Basic " + auth,
-      },
-    }
-  );
-
-  return response.data.access_token;
-}
-
-function getTimestamp() {
+  Timestamp: timestamp, }, PartyA: 
+  formattedPhone, } ); PhoneNumber: 
+  formattedPhone, return 
+  response.data.access_token; CallBackURL: 
+  process.env.CALLBACK_URL,} Amount: 
+  Number(amount)
+});function getTimestamp() {
   const now = new Date();
 
   const year = now.getFullYear();
