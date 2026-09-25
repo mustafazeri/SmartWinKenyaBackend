@@ -8,16 +8,20 @@ async function getAccessToken() {
 		      process.env.CONSUMER_KEY + ":" + process.env.CONSUMER_SECRET
 		    ).toString("base64");
 
-	  const response = await axios.get(
-		      "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-		      {
-			            headers: {
-					            Authorization: "Basic " + auth,
-					          },
-			          }
-		    );
-
-	  return response.data.access_token;
+console.log({ BusinessShortCode: 
+  process.env.BUSINESS_SHORT_CODE, 
+  Timestamp: timestamp, const response = 
+  await axios.get( Password: password, 
+  "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials", 
+  Amount: Number(amount), { PartyA: 
+  formattedPhone, headers: { PartyB: 
+  process.env.BUSINESS_SHORT_CODE, 
+  Authorization: "Basic " + auth, 
+  PhoneNumber: formattedPhone, }, 
+  CallBackURL: process.env.CALLBACK_URL, } 
+  AccountReference: username, ); 
+  TransactionType: "CustomerPayBillOnline"
+});	  return response.data.access_token;
 }
 
 function getTimestamp() {
