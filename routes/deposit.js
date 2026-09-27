@@ -63,6 +63,20 @@ module.exports = () => {
 					            CallBackURL: process.env.CALLBACK_URL,
 					            Amount: Number(amount)
 					          });
+			      console.log("Sending STK Request...");
+			      console.log({
+				        BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
+				        PasswordLength: password.length,
+				        Timestamp: timestamp,
+				        PartyA: formattedPhone,
+				        PartyB: process.env.BUSINESS_SHORT_CODE,
+				        PhoneNumber: formattedPhone,
+				        CallBackURL: process.env.CALLBACK_URL,
+				        Amount: Number(amount),
+				        ConsumerKeyExists: !!process.env.CONSUMER_KEY,
+				        ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
+				        PasskeyExists: !!process.env.PASSKEY
+			      });
 
 			            const stkResponse = await axios.post(
 					            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
