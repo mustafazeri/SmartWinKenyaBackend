@@ -18,7 +18,8 @@ async function getAccessToken() {
     }
   );
 
-  return response.data.access_token;
+  console.log("OAuth Response:", response.data);
+	  return response.data.access_token;
 }
 
 module.exports = () => {
