@@ -77,7 +77,15 @@ console.log({
       console.log("STK Request Body:");
       console.log(JSON.stringify(requestBody, null, 2));
 
-      const stkResponse = await axios.post(
+      ole.log("===== DEBUG CONFIG =====");
+console.log({
+	  BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
+	  PasskeyLength: process.env.PASSKEY ? process.env.PASSKEY.length : 0,
+	  ConsumerKeyExists: !!process.env.CONSUMER_KEY,
+	  ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
+	  CallbackURL: process.env.CALLBACK_URL
+});
+console.log("========================");onst stkResponse = await axios.post(
         "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
         requestBody,
         {
