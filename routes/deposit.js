@@ -85,11 +85,12 @@ console.log({
 	  ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
 	  CallbackURL: process.env.CALLBACK_URL
 });
-console.log("========================");onst stkResponse = await axios.post(
-        "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
-        requestBody,
-        {
-          headers: {
+          ole.log("========================");
+
+const stkResponse = await axios.post(
+	  "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
+	  requestBody,
+	  {eaders: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
