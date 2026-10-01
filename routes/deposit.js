@@ -66,6 +66,13 @@ module.exports = () => {
         AccountReference: username,
         TransactionDesc: "SmartWin Kenya Deposit",
       };
+console.log({
+	  BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
+	  PasskeyLength: process.env.PASSKEY ? process.env.PASSKEY.length : 0,
+	  CallbackURL: process.env.CALLBACK_URL,
+	  ConsumerKeyExists: !!process.env.CONSUMER_KEY,
+	  ConsumerSecretExists: !!process.env.CONSUMER_SECRET
+});
 
       console.log("STK Request Body:");
       console.log(JSON.stringify(requestBody, null, 2));
