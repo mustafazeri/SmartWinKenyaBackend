@@ -53,7 +53,7 @@ module.exports = () => {
       ).toString("base64");
 
       const token = await getAccessToken();
-
+console.log("Access token received:", !!token);
       const requestBody = {
         BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
         Password: password,
@@ -77,7 +77,7 @@ console.log({
       console.log("STK Request Body:");
       console.log(JSON.stringify(requestBody, null, 2));
 
-      ole.log("===== DEBUG CONFIG =====");
+     console.log("===== DEBUG CONFIG =====");
 console.log({
 	  BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
 	  PasskeyLength: process.env.PASSKEY ? process.env.PASSKEY.length : 0,
@@ -85,7 +85,7 @@ console.log({
 	  ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
 	  CallbackURL: process.env.CALLBACK_URL
 });
-          ole.log("========================");
+          console.log("========================");
 
 const stkResponse = await axios.post(
 	  "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
