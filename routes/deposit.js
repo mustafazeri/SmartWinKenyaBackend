@@ -4,7 +4,7 @@ const { Buffer } = require("buffer");
 const Payment = require("../models/Payment");
 
 async function getAccessToken() {
-	const auth = Buffer.from(
+	  const auth = Buffer.from(
 		      process.env.CONSUMER_KEY + ":" + process.env.CONSUMER_SECRET
 		    ).toString("base64");
 
@@ -47,8 +47,8 @@ module.exports = () => {
 
 			            const password = Buffer.from(
 					            process.env.BUSINESS_SHORT_CODE +
-					            process.env.PASSKEY +
-					            timestamp
+					              process.env.PASSKEY +
+					              timestamp
 					          ).toString("base64");
 
 			            const token = await getAccessToken();
@@ -56,27 +56,17 @@ module.exports = () => {
 			            console.log("Sending STK Request...");
 			            console.log({
 					            BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
-					            Password: password,
+					            PasswordLength: password.length,
 					            Timestamp: timestamp,
 					            PartyA: formattedPhone,
+					            PartyB: process.env.BUSINESS_SHORT_CODE,
 					            PhoneNumber: formattedPhone,
 					            CallBackURL: process.env.CALLBACK_URL,
-					            Amount: Number(amount)
+					            Amount: Number(amount),
+					            ConsumerKeyExists: !!process.env.CONSUMER_KEY,
+					            ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
+					            PasskeyExists: !!process.env.PASSKEY,
 					          });
-			      console.log("Sending STK Request...");
-			      console.log({
-				        BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
-				        PasswordLength: password.length,
-				        Timestamp: timestamp,
-				        PartyA: formattedPhone,
-				        PartyB: process.env.BUSINESS_SHORT_CODE,
-				        PhoneNumber: formattedPhone,
-				        CallBackURL: process.env.CALLBACK_URL,
-				        Amount: Number(amount),
-				        ConsumerKeyExists: !!process.env.CONSUMER_KEY,
-				        ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
-				        PasskeyExists: !!process.env.PASSKEY
-			      });
 
 			            const stkResponse = await axios.post(
 					            "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
@@ -91,11 +81,12 @@ module.exports = () => {
 							              PhoneNumber: formattedPhone,
 							              CallBackURL: process.env.CALLBACK_URL,
 							              AccountReference: username,
-							              TransactionDesc: "SmartWin Kenya Deposit"
+							              TransactionDesc: "SmartWin Kenya Deposit",
 							            },
 					            {
 							              headers: {
 									                  Authorization: "Bearer " + token,
+									                  "Content-Type": "application/json",
 									                },
 							            }
 					          );
@@ -109,15 +100,11 @@ module.exports = () => {
 					          });
 
 			            return res.json(stkResponse.data);
-
 			          } catch (err) {
-
 					        console.error("========== STK ERROR ==========");
 					        console.error("Status:", err.response?.status);
-					        console.error(
-							        "Data:",
-							        JSON.stringify(err.response?.data, null, 2)
-							      );
+					        console.error("Headers:", err.response?.headers);
+					        console.error("Data:", err.response?.data);
 					        console.error("Message:", err.message);
 					        console.error("==============================");
 
