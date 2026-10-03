@@ -96,7 +96,8 @@ console.log("Token Length:", token.length);
 const stkResponse = await axios.post(
 	  "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
 	  requestBody,
-	  {eaders: {
+	{
+		  headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
