@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
-
+const Payment = require("../models/Payment");
+const User = require("../models/User");
 const {
   getAccessToken,
   getTimestamp,
@@ -65,18 +66,62 @@ router.post("/deposit", async (req, res) => {
     });
   }
 });
+router.post("/callback", async (req, res) => {
+	  try {
+		      console.log("M-Pesa Callback:", JSON.stringify(req.body, null, 2));
 
-// Callback
-router.post("/callback", (req, res) => {
-  console.log(
-    "M-Pesa Callback:",
-    JSON.stringify(req.body, null, 2)
-  );
-console.log("===== END CALLBACK =====");
-  res.json({
-    ResultCode: 0,
-    ResultDesc: "Accepted"
-  });
+		      const callback = req.body.Body.stkCallback;
+
+		      const payment = await Payment.findOne({
+			            checkoutRequestID: callback.CheckoutRequestID
+			          });
+
+		      if (payment) {
+			            payment.resultCode = callback.ResultCode;
+			            payment.resultDesc = callback.ResultDesc;
+
+			            if (callback.ResultCode === 0) {
+					            payment.status = "success";
+
+					            const receipt = callback.CallbackMetadata.Item.find(
+							              item => item.Name === "MpesaReceiptNumber"
+							            );
+
+					            if (receipt) {
+							              payment.mpesaReceipt = receipt.Value;
+							            }
+
+					            const user = await User.findOne({
+							              username: payment.username
+							            });
+
+					            if (user) {
+							              user.coins += payment.amount * 2;
+							              await user.save();
+							              console.log("Coins credited:", user.username, user.coins);
+							            }
+
+					          } else {
+							          payment.status = "failed";
+							        }
+
+			            await payment.save();
+			          }
+
+		      console.log("===== END CALLBACK =====");
+
+		      res.json({
+			            ResultCode: 0,
+			            ResultDesc: "Accepted"
+			          });
+
+		    } catch (err) {
+			        console.error(err);
+			        res.json({
+					      ResultCode: 0,
+					      ResultDesc: "Accepted"
+					    });
+			      }
 });
 
 module.exports = router;

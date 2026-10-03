@@ -7,7 +7,7 @@ require("mongoose"); const depositRoutes =
 require("./routes/deposit");
 const mpesaRoutes = require("./routes/mpesa");
 const Payment = require("./models/Payment");
-
+const User = require("./models/User");
 const app = express();
 
 app.use(cors());
@@ -22,32 +22,7 @@ mongoose.connect(process.env.MONGODB_URI)
   })
   .catch((err) => {
     console.error("MongoDB Error:", err);
-  });// User Schema
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  coins: {
-    type: Number,
-    default: 0
-  },
-  score: {
-    type: Number,
-    default: 0
-  },
-  lastDailyBonus: {
-    type: Date,
-    default: null
-  }
-});
-
-const User = mongoose.model("User", userSchema);
+  });
 
 // Home Route
 app.get("/", (req, res) => {
