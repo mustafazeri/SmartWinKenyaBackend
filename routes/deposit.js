@@ -91,7 +91,8 @@ console.log({
 	  CallbackURL: process.env.CALLBACK_URL
 });
           console.log("========================");
-
+console.log("Authorization Header:", "Bearer " + token);
+console.log("Token Length:", token.length);
 const stkResponse = await axios.post(
 	  "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
 	  requestBody,
