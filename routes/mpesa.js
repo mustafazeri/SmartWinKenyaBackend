@@ -72,7 +72,7 @@ router.post("/callback", (req, res) => {
     "M-Pesa Callback:",
     JSON.stringify(req.body, null, 2)
   );
-
+console.log("===== END CALLBACK =====");
   res.json({
     ResultCode: 0,
     ResultDesc: "Accepted"
