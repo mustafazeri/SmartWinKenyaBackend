@@ -5,6 +5,8 @@ const { Buffer } = require("buffer");
 const Payment = require("../models/Payment");
 
 async function getAccessToken() {
+	console.log("Consumer Key prefix:", process.env.CONSUMER_KEY?.substring(0, 6));
+	console.log("Consumer Secret prefix:", process.env.CONSUMER_SECRET?.substring(0, 6));
   const auth = Buffer.from(
     process.env.CONSUMER_KEY + ":" + process.env.CONSUMER_SECRET
   ).toString("base64");
