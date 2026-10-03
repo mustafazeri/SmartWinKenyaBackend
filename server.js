@@ -5,6 +5,7 @@ cors = require("cors"); const bcrypt =
 require("bcryptjs"); const mongoose = 
 require("mongoose"); const depositRoutes = 
 require("./routes/deposit");
+const mpesaRoutes = require("./routes/mpesa");
 const Payment = require("./models/Payment");
 
 const app = express();
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/deposit", depositRoutes());
+app.use("/mpesa", mpesaRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
