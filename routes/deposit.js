@@ -90,20 +90,21 @@ console.log({
 	  ConsumerSecretExists: !!process.env.CONSUMER_SECRET,
 	  CallbackURL: process.env.CALLBACK_URL
 });
-          console.log("========================");
 console.log("Authorization Header:", "Bearer " + token);
 console.log("Token Length:", token.length);
-ole.log("STK Success:", stkResponse.data);onst stkResponse = await axios.post(
+
+const stkResponse = await axios.post(
 	  "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
 	  requestBody,
-	{
-		  headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+	  {
+		      headers: {
+			            Authorization: "Bearer " + token,
+			            "Content-Type": "application/json",
+			          },
+		    }
+);
 
+console.log("STK Success:", stkResponse.data);
       await Payment.create({
         username,
         phone: formattedPhone,
