@@ -131,5 +131,23 @@ router.post("/callback", async (req, res) => {
 					    });
 			      }
 });
+router.get("/history/:username", async (req, res) => {
+	  try {
+		      const payments = await Payment.find({
+			            username: req.params.username
+			          }).sort({ createdAt: -1 });
 
+		      res.json({
+			            success: true,
+			            payments
+			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
 module.exports = router;
