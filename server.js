@@ -5,6 +5,7 @@ cors = require("cors"); const bcrypt =
 require("bcryptjs"); const mongoose = 
 require("mongoose"); const depositRoutes = 
 require("./routes/deposit");
+const withdrawRoutes = require("./routes/withdraw");
 const mpesaRoutes = require("./routes/mpesa");
 const Payment = require("./models/Payment");
 const User = require("./models/User");
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/deposit", depositRoutes());
 app.use("/mpesa", mpesaRoutes);
-
+app.use("/withdraw", withdrawRoutes);
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
