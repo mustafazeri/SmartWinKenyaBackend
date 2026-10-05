@@ -27,4 +27,21 @@ router.get("/stats", async (req, res) => {
 			      }
 });
 
+router.get("/payments", async (req, res) => {
+	  try {
+		      const payments = await Payment.find().sort({ createdAt: -1 });
+
+		      res.json({
+			            success: true,
+			            payments
+			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
 module.exports = router;
