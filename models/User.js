@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
 		      type: Number,
 		      default: 0
 		    },
+	referralCode: {
+		  type: String,
+		  unique: true
+	},
+	referredBy: {
+		  type: String,
+		  default: ""
+	},
 	  lastDailyBonus: {
 		      type: Date,
 		      default: null

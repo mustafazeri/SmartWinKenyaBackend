@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
 // Register
 app.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, referralCode } = req.body;
 
     if (!username || !password) {
       return res.json({
@@ -54,18 +54,35 @@ app.post("/register", async (req, res) => {
         message: "Username already exists."
       });
     }
+let referrer = null;
 
+	  if (referralCode) {
+		    referrer = await User.findOne({ referralCode });
+
+		    if (!referrer) {
+			        return res.json({
+					      success: false,
+					      message: "Invalid referral code."
+					    });
+			      }
+	  }
+	  
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
-      username,
-      password: hashedPassword,
-      coins: 0,
-      score: 0,
-      lastDailyBonus: null
+	      username,
+	      password: hashedPassword,
+	      coins: referrer ? 50 : 0,
+	      score: 0,
+	      referralCode: username.toUpperCase() + Math.floor(Math.random() * 10000),
+	      referredBy: referrer ? referrer.username : "",
+	      lastDailyBonus: null
     });
 
     await user.save();
-
+if (referrer) {
+	  referrer.coins += 100;
+	  await referrer.save();
+}
     res.json({
       success: true,
       message: "Registration successful!"
