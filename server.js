@@ -6,6 +6,7 @@ require("bcryptjs"); const mongoose =
 require("mongoose"); const depositRoutes = 
 require("./routes/deposit");
 const withdrawRoutes = require("./routes/withdraw");
+const b2cRoutes = require("./routes/b2c");
 const mpesaRoutes = require("./routes/mpesa");
 const Payment = require("./models/Payment");
 const User = require("./models/User");
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use("/deposit", depositRoutes());
 app.use("/mpesa", mpesaRoutes);
 app.use("/withdraw", withdrawRoutes);
+app.use("/b2c", b2cRoutes);
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
