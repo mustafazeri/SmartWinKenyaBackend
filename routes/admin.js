@@ -29,11 +29,31 @@ router.get("/stats", async (req, res) => {
 
 router.get("/payments", async (req, res) => {
 	  try {
-		      const payments = await Payment.find().sort({ createdAt: -1 });
+		const payments = await Payment.find()
+		  .sort({ createdAt: -1 })
+		  .limit(20);
 
 		      res.json({
 			            success: true,
 			            payments
+			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
+router.get("/users", async (req, res) => {
+	  try {
+		      const users = await User.find({}, "-password")
+		        .sort({ username: 1 });
+
+		      res.json({
+			            success: true,
+			            users
 			          });
 		    } catch (err) {
 			        console.error(err);
