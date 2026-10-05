@@ -160,7 +160,7 @@ app.get("/wallet/:username", async (req, res) => {
     });
   }
 });
-pp.get("/leaderboard", async (req, res) => {
+app.get("/leaderboard", async (req, res) => {
 	  try {
 		      const users = await User.find({}, "-password")
 		        .sort({ score: -1, coins: -1 })
