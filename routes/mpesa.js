@@ -77,6 +77,14 @@ router.post("/callback", async (req, res) => {
 			          });
 
 		      if (payment) {
+			      if (payment.status === "success") {
+				        console.log("Duplicate callback ignored:", payment.checkoutRequestID);
+
+				        return res.json({
+						    ResultCode: 0,
+						    ResultDesc: "Accepted"
+						  });
+			      }
 			            payment.resultCode = callback.ResultCode;
 			            payment.resultDesc = callback.ResultDesc;
 
