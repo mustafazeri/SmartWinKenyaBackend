@@ -160,7 +160,25 @@ app.get("/wallet/:username", async (req, res) => {
     });
   }
 });
+pp.get("/leaderboard", async (req, res) => {
+	  try {
+		      const users = await User.find({}, "-password")
+		        .sort({ score: -1, coins: -1 })
+		        .limit(20);
 
+		      res.json({
+			            success: true,
+			            users
+			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
 // Update Wallet
 app.post("/update", async (req, res) => {
   try {
