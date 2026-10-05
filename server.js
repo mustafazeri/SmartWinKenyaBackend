@@ -196,6 +196,33 @@ app.get("/leaderboard", async (req, res) => {
 					    });
 			      }
 });
+app.get("/referral/:username", async (req, res) => {
+	  try {
+		      const user = await User.findOne(
+			            { username: req.params.username },
+			            "username referralCode"
+			          );
+
+		      if (!user) {
+			            return res.json({
+					            success: false,
+					            message: "User not found."
+					          });
+			          }
+
+		      res.json({
+			            success: true,
+			            referralCode: user.referralCode
+			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
 // Update Wallet
 app.post("/update", async (req, res) => {
   try {
