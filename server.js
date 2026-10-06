@@ -71,8 +71,7 @@ let referrer = null;
     const user = new User({
 	      username,
 	      password: hashedPassword,
-	      coins: referrer ? 50 : 0,
-	      score: 0,
+	    coins: referralCode ? 50 : 0,
 	      referralCode: username.toUpperCase() + Math.floor(Math.random() * 10000),
 	      referredBy: referrer ? referrer.username : "",
 	      lastDailyBonus: null
@@ -80,9 +79,10 @@ let referrer = null;
 
     await user.save();
 if (referrer) {
-	  referrer.coins += 100;
+	  referrer.coins += 50;
 	  await referrer.save();
 }
+
     res.json({
       success: true,
       message: "Registration successful!"
