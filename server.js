@@ -196,6 +196,8 @@ app.get("/leaderboard", async (req, res) => {
 					    });
 			      }
 });
+
+// Update Wallet
 app.get("/referral/:username", async (req, res) => {
 	  try {
 		      const user = await User.findOne(
@@ -210,10 +212,17 @@ app.get("/referral/:username", async (req, res) => {
 					          });
 			          }
 
+		      if (!user.referralCode) {
+			            user.referralCode =
+				              user.username.toUpperCase() + Math.floor(Math.random() * 10000);
+			            await user.save();
+			          }
+
 		      res.json({
 			            success: true,
 			            referralCode: user.referralCode
 			          });
+
 		    } catch (err) {
 			        console.error(err);
 
@@ -222,42 +231,6 @@ app.get("/referral/:username", async (req, res) => {
 					      message: "Server error."
 					    });
 			      }
-});
-// Update Wallet
-app.post("/update", async (req, res) => {
-  try {
-    const { username, coins, score } = req.body;
-
-    const user = await User.findOne({ username });
-
-    if (!user) {
-      return res.json({
-        success: false,
-        message: "User not found."
-      });
-    }
-
-    if (!user.referralCode) {
-	      user.referralCode =
-		        user.username.toUpperCase() + Math.floor(Math.random() * 10000);
-	      await user.save();
-    }
-
-    res.json({
-      success: true,
-      message: "Wallet updated successfully!",
-      coins: user.coins,
-      score: user.score
-    });
-
-  } catch (err) {
-    console.error(err);
-
-    res.json({
-      success: false,
-      message: "Server error."
-    });
-  }
 });// Update Coins
 app.post("/coins", async (req, res) => {
   try {
