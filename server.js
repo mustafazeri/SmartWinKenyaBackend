@@ -237,10 +237,11 @@ app.post("/update", async (req, res) => {
       });
     }
 
-    user.coins = coins;
-    user.score = score;
-
-    await user.save();
+    if (!user.referralCode) {
+	      user.referralCode =
+		        user.username.toUpperCase() + Math.floor(Math.random() * 10000);
+	      await user.save();
+    }
 
     res.json({
       success: true,
