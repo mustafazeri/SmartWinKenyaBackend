@@ -6,9 +6,11 @@ require("bcryptjs"); const mongoose =
 require("mongoose"); const depositRoutes = 
 require("./routes/deposit");
 const withdrawRoutes = require("./routes/withdraw");
+const questionRoutes = require("./routes/questions");
 const b2cRoutes = require("./routes/b2c");
 const adminRoutes = require("./routes/admin");
 const mpesaRoutes = require("./routes/mpesa");
+const gameRoutes = require("./routes/game");
 const Payment = require("./models/Payment");
 const User = require("./models/User");
 const app = express();
@@ -17,7 +19,9 @@ app.use(cors());
 app.use(express.json());
 app.use("/deposit", depositRoutes());
 app.use("/mpesa", mpesaRoutes);
+app.use("/game", gameRoutes);
 app.use("/withdraw", withdrawRoutes);
+app.use("/questions", questionRoutes);
 app.use("/b2c", b2cRoutes);
 app.use("/admin", adminRoutes);
 // Connect to MongoDB
@@ -72,6 +76,7 @@ let referrer = null;
 	      username,
 	      password: hashedPassword,
 	    coins: referralCode ? 50 : 0,
+	    isAdmin: username === "testuser",
 	      referralCode: username.toUpperCase() + Math.floor(Math.random() * 10000),
 	      referredBy: referrer ? referrer.username : "",
 	      lastDailyBonus: null
@@ -132,11 +137,12 @@ app.post("/login", async (req, res) => {
     }
 
     res.json({
-      success: true,
-      message: "Login successful!",
-      username: user.username,
-      coins: user.coins,
-      score: user.score
+	      success: true,
+	      message: "Login successful!",
+	      username: user.username,
+	      coins: user.coins,
+	      score: user.score,
+	      isAdmin: user.isAdmin
     });
 
   } catch (err) {
@@ -187,6 +193,41 @@ app.get("/leaderboard", async (req, res) => {
 			            success: true,
 			            users
 			          });
+		    } catch (err) {
+			        console.error(err);
+
+			        res.json({
+					      success: false,
+					      message: "Server error."
+					    });
+			      }
+});
+
+app.get("/myrank/:username", async (req, res) => {
+	  try {
+		      const users = await User.find().sort({ score: -1 });
+
+		      const index = users.findIndex(
+			            user => user.username === req.params.username
+			          );
+
+		      if (index === -1) {
+			            return res.json({
+					            success: false,
+					            message: "User not found."
+					          });
+			          }
+
+		      const user = users[index];
+
+		      res.json({
+			            success: true,
+			            rank: index + 1,
+			            username: user.username,
+			            score: user.score,
+			            coins: user.coins
+			          });
+
 		    } catch (err) {
 			        console.error(err);
 
